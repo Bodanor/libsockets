@@ -180,7 +180,7 @@ int Send_msg(const int src_socket, const uint8_t *data ,const uint64_t longMessa
     char ports[NI_MAXSERV];
 #endif
 
-    Packet current_packet; /* Current packe to be sent. Will be filled in when needed */
+    Packet current_packet; /* Current packet to be sent. Will be filled in when needed */
     int step = 0;   /* Used to count of many times the message fits in PACKET_BODY_MAX_SIZE chuncks */
     uint64_t bytes_send = 0; /* Used to know if we have sent all the bytes to the socket. Main loop */
     int write_sent = 0;
