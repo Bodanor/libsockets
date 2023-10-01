@@ -31,6 +31,13 @@ $(BUILD_DIR)/%.o: %.c
 
 -include $(DEPS)
 
+docs:
+	doxygen
+	$(MAKE) -C DOCS/latex
+
+docs-rm:
+	rm -rf DOCS
+	
 clean:
 	$(RM) $(OBJS) $(DEPS)
 
