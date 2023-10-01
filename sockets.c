@@ -1,11 +1,24 @@
 #include "sockets.h"
 
+/**
+ * @file sockets.c
+ * @author Liwinux & Tinmar1010
+ * @brief Function declarations for the socket library.
+ * @version 0.1
+ * @date 2023-10-01
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
+/* Packed is used to avoid compilator optimizations to be applied */
 typedef struct __attribute__((packed)) header_t{
     uint8_t next_packet_flag;
     uint32_t body_size;
 
 } Header ;
 
+/* Packed is used to avoid compilator optimizations to be applied */
 typedef struct __attribute__((packed)) packet_t {
     Header header;
     uint8_t raw_body_data[PACKET_BODY_MAX_SIZE];
@@ -13,7 +26,25 @@ typedef struct __attribute__((packed)) packet_t {
 } Packet;
 
 
+/**
+ * @brief Create a socket.
+ * 
+ * @param ip Ip address to assign to the socket.
+ * @param port Port nulber to assign to the socket.
+ * @param results pointer to pointer to a struct addrinfo that contains all the socket info.
+ * @return return the newly created socket. 
+ */
 static int create_socket(const char *ip, const int port, struct addrinfo **results);
+
+/**
+ * @brief Create a msg pointer. If the first parameter is not NULL, the packet
+ * will we concatenated to the alreay created message.
+ * 
+ * @param message a pointer to pointer to a Message struct that will hold the newly
+ * created message.
+ * @param packet a pointer to a packet struct that hold the header + the body.
+ * @return Message* : a pointer to a Message struct that hold the data.
+ */
 static Message* create_msg(Message **message, const Packet *packet);
 
 void destroyMessage(Message *message)
