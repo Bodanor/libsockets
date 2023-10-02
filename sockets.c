@@ -256,13 +256,13 @@ int Send_msg(const int src_socket, const uint8_t *data ,const uint64_t longMessa
 #ifdef DEBUG
             printf("[DEBUG] Client on socket --> {%s} on PORT : %s is now disconnected !\n",hosts,ports);
 #endif
-            return 0;
+            return -1;
         }
         else if (write_sent == -1) {
 #ifdef DEBUG
             printf("[DEBUG] Write error on socket --> {%s} on PORT : %s !\n",hosts,ports);
 #endif
-        return -1;
+        return -3;
         }
         /* Increment the bytes that have been sent. */
         bytes_send += write_sent;
@@ -272,6 +272,7 @@ int Send_msg(const int src_socket, const uint8_t *data ,const uint64_t longMessa
 #endif
 
     }
+    /* Check if every has been sent */
     
     return bytes_send;
 
@@ -312,13 +313,13 @@ int Receive_msg(const int src_socket, Message **message)
 #ifdef DEBUG
             printf("[DEBUG] Client on socket --> {%s} on PORT : %s is now disconnected !\n",hosts,ports);
 #endif
-            return 0;
+            return -1;
         }
         else if (recv_bytes == -1) {
 #ifdef DEBUG
             printf("[DEBUG] Read error on socket --> {%s} on PORT : %s !\n",hosts,ports);
 #endif
-            return -1;
+            return -3;
         }
         else if (recv_bytes != sizeof(Header)) {
 #ifdef DEBUG
@@ -331,13 +332,14 @@ int Receive_msg(const int src_socket, Message **message)
         if (!recv_bytes) {
 #ifdef DEBUG
             printf("[DEBUG] Client on socket --> {%s} on PORT : %s is now disconnected !\n",hosts,ports);
+            return -1;
 #endif
         }
         else if (recv_bytes == -1) {
 #ifdef DEBUG
             printf("[DEBUG] Read error on socket --> {%s} on PORT : %s !\n",hosts,ports);
 #endif
-            return -1;
+            return -3;
         }
         else if (recv_bytes != current_packet.header.body_size) {
 #ifdef DEBUG

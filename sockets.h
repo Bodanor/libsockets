@@ -61,9 +61,9 @@ int Accept_connexion(const int src_socket);
  * @param data The data to send to the socket.
  * @param data_size The size of the data to send.
  * @return The number of bytes sent without the header size of each packet.
- * @return 0 : If the dest_socket has been disconnected.
- * @return -1 : If the socket is broken and a write could not be achieved.
- * @return -2: Bad parameter passed to the function. 
+ * @return -1 : If the dest_socket has been disconnected.
+ * @return -2 : Bad parameter passed to the function. 
+ * @return -3 : If the socket is broken and a write could not be achieved.
  */
 int Send_msg(const int dest_socket, const uint8_t *data, uint64_t data_size);
 
@@ -76,9 +76,9 @@ int Send_msg(const int dest_socket, const uint8_t *data, uint64_t data_size);
  * @param message a pointer to pointer to a Message type that has to be set
  * to NULL. Will hold the data.
  * @return The bytes received wihtout the header of each packet.
- * @return 0 : If the src_socket has been disconnected.
- * @return -1 : If the socket is broken and a read could not be achieved.
+ * @return -1 : If the src_socket has been disconnected.
  * @return -2 : If the header or message is corrupted and thus data becomes invalid.
+ * @return -3 : If the socket is broken and a read could not be achieved.
  */
 int Receive_msg(const int src_socket, Message **message);
 

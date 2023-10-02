@@ -40,12 +40,6 @@ docs-rm:
 	
 clean:
 	$(RM) $(OBJS) $(DEPS)
-
-fclean: clean
 	$(RM) $(NAME)
 
-re:
-	$(MAKE) fclean
-	$(MAKE) all
-
-.PHONY: clean fclean re
+.PHONY: clean
