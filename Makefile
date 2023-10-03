@@ -1,14 +1,18 @@
 NAME        := libsockets.a
 
-BUILD_DIR   := .build
-SRCS        := sockets.c 
+SRC_DIR     := src
+SRCS        := $(wildcard $(SRC_DIR)/*.c)
 
-SRCS        := $(SRCS:%=$(SRC_DIR)/%)
+INCS        := include
+
+BUILD_DIR   := .build
 OBJS        := $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 DEPS        := $(OBJS:.o=.d)
 
 CC          := gcc
 CFLAGS      := -Wall -Wextra -Werror -DDEBUG -g -MMD -MP
+CPPFLAGS    := $(addprefix -I,$(INCS))
+
 AR          := ar
 ARFLAGS     := -r -c -s
 
@@ -24,19 +28,12 @@ $(NAME): $(OBJS)
 	$(info CREATED $@)
 
 
-$(BUILD_DIR)/%.o: %.c
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(DIR_DUP)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 	$(info CREATED $@)
 
 -include $(DEPS)
-
-docs:
-	doxygen
-	$(MAKE) -C DOCS/latex
-
-docs-rm:
-	rm -rf DOCS
 	
 clean:
 	$(RM) $(OBJS) $(DEPS)
