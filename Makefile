@@ -14,7 +14,7 @@ CFLAGS      := -Wall -Wextra -Werror -DDEBUG -g -MMD -MP
 CPPFLAGS    := $(addprefix -I,$(INCS))
 
 AR          := ar
-ARFLAGS     := -r -c -s
+ARFLAGS     := -r -c -s -v
 
 
 RM          := rm -f
@@ -24,14 +24,14 @@ DIR_DUP     = mkdir -p $(@D)
 all: $(NAME)
 
 $(NAME): $(OBJS)
+	$(info Making static library : $@)
 	$(AR) $(ARFLAGS) $(NAME) $(OBJS)
-	$(info CREATED $@)
 
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+	$(info Compiling object file : $@)
 	$(DIR_DUP)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
-	$(info CREATED $@)
 
 -include $(DEPS)
 	
