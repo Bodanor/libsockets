@@ -321,13 +321,12 @@ int Receive_msg(const int src_socket, Message **message)
 #endif
             return -3;
         }
-        else if (recv_bytes != sizeof(Header)) {
+        else if (recv_bytes != sizeof(Header) || current_packet.header.body_size > PACKET_BODY_MAX_SIZE) {
 #ifdef DEBUG
             printf("[DEBUG] Header corrupted on socket --> {%s} on PORT : %s !\n",hosts,ports);
             return -2;
 #endif
         }
-
         recv_bytes = read(src_socket, current_packet.raw_body_data, current_packet.header.body_size);
         if (!recv_bytes) {
 #ifdef DEBUG
