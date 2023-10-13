@@ -43,6 +43,7 @@ int Create_server(const int port);
  * @param server_ip The server ip to connect to. 
  * @param port The server port number to connect to.
  * @return The connection socket.
+ * @return -1 : Connection refused.
  */
 int Server_connect(const char *server_ip, const int port);
 

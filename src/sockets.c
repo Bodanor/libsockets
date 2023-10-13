@@ -190,7 +190,7 @@ int Server_connect(const char *server_ip, const int port)
 
     if (connect(client_socket, results->ai_addr, results->ai_addrlen) == -1) {
         perror("Erreur de connect ! ");
-        exit(1);
+        return -1;
     }
 
 #ifdef DEBUG
