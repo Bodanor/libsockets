@@ -189,6 +189,8 @@ int Server_connect(const char *server_ip, const int port)
 
     results = NULL;
     client_socket = create_socket(server_ip, port, &results);
+    if (client_socket < 0)
+        return -1;
 
     if (connect(client_socket, results->ai_addr, results->ai_addrlen) == -1) {
         perror("Erreur de connect ! ");
