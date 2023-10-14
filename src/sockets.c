@@ -98,7 +98,7 @@ int create_socket(const char *ip, const int port, struct addrinfo **results)
     if ((server_socket = socket(AF_INET, SOCK_STREAM, 0)) == -1)
     {
         perror("Socket error !");
-        exit(1);
+        return -1;
     }
 #ifdef DEBUG
     printf("[DEBUG] Socket created 1\n");
@@ -107,7 +107,7 @@ int create_socket(const char *ip, const int port, struct addrinfo **results)
     /* Reutilisable socket */
     if (setsockopt(server_socket, SOL_SOCKET, SO_REUSEADDR, &(int){1}, sizeof(int)) < 0){
         perror("Setsockopt Error !");
-        exit(1);
+        return -1;
     }
 
     /* We fill in the socket address to bind */
@@ -121,13 +121,13 @@ int create_socket(const char *ip, const int port, struct addrinfo **results)
     if (ip == NULL)
     {
         if (getaddrinfo(NULL, buffer, &hints, &(*results)) != 0)
-            exit(1);
+            return -1;
     }
 
     else
     {
         if (getaddrinfo(ip, buffer, &hints, &(*results)) != 0) 
-            exit(1);
+            return -1;
     }
         
 #ifdef DEBUG
@@ -150,10 +150,12 @@ int Create_server(int port)
 
     results = NULL;
     server_socket = create_socket(NULL, port, &results);
+    if (server_socket < 0)
+        return -1;
 
     if (bind(server_socket, results->ai_addr, results->ai_addrlen) < 0) {
         perror("Socket error !");
-        exit(1);
+        return -1;
     }
     
 #ifdef DEBUG
@@ -163,7 +165,7 @@ int Create_server(int port)
 
     if (listen(server_socket, SOMAXCONN) == -1) {
         perror("Socket error !");
-        exit(1);
+        return -1;
     }
 
 #ifdef DEBUG

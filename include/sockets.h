@@ -34,6 +34,7 @@ typedef struct __attribute__((packed)) msg_t{
  * 
  * @param port port to listen to.
  * @return the server socket created.
+ * @return -1 : An internal error occured.
  */
 int Create_server(const int port);
 
